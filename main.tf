@@ -1,6 +1,6 @@
 resource "google_container_analysis_note" "note" {
   provider = "google-beta"
-  project = var.project
+  project = var.project_id
   name = "ci-attestor-note"
   attestation_authority {
     hint {
@@ -9,7 +9,7 @@ resource "google_container_analysis_note" "note" {
   }
 }
 resource "google_binary_authorization_attestor" "attestor" {
-  project = var.project
+  project = var.project_id
   provider = "google-beta"
   name = var.binauth_name
   attestation_authority_note {
@@ -20,7 +20,7 @@ resource "google_binary_authorization_attestor" "attestor" {
   }
 }
 resource "google_binary_authorization_policy" "policy" {
-  project = var.project
+  project = var.project_id
   provider = "google-beta"
   admission_whitelist_patterns {
       name_pattern  = "gcr.io/google_containers/*"
