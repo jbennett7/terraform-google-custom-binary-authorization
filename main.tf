@@ -26,7 +26,7 @@ resource "google_binary_authorization_policy" "policy" {
     iterator = w_name
     for_each = var.whitelist_names
     content {
-      name_pattern = w_name
+      name_pattern = w_name.value
     } 
   }
   cluster_admission_rules {
