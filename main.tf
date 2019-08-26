@@ -23,25 +23,19 @@ resource "google_binary_authorization_policy" "policy" {
   project = var.project_id
   provider = "google-beta"
   admission_whitelist_patterns {
-      name_pattern  = "gcr.io/google_containers/*"
-  }
-  admission_whitelist_patterns {
-      name_pattern  = "k8s.gcr.io/*"
-  }
-  admission_whitelist_patterns {
-      name_pattern  = "gcr.io/stackdriver-agents/*"
+    for w_name in var.whitelist_names: {
+      name = w_name
+    }
   }
   cluster_admission_rules {
     cluster = join(".", [var.region, var.cluster_name])
-    evaluation_mode = "REQUIRE_ATTESTATION"
-    #enforcement_mode = "ENFORCED_BLOCK_AND_AUDIT_LOG"
-    enforcement_mode = "DRYRUN_AUDIT_LOG_ONLY"
+    evaluation_mode = var.evaluation_mode
+    enforcement_mode = var.enforcement_mode
     require_attestations_by = ["${google_binary_authorization_attestor.attestor.name}"]
   }
   default_admission_rule {
-    evaluation_mode = "ALWAYS_DENY"
-    enforcement_mode = "DRYRUN_AUDIT_LOG_ONLY"
-    # enforcement_mode = "ENFORCED_BLOCK_AND_AUDIT_LOG"
+    evaluation_mode = var.evalutaion_mode
+    enforcement_mode = var.enforcement_mode
   }
 
 }
