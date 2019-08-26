@@ -24,10 +24,10 @@ resource "google_binary_authorization_policy" "policy" {
   provider = "google-beta"
   dynamic "admission_whitelist_patterns" {
     iterator = w_name
-    for_each var.whitelist_names:
+    for_each = var.whitelist_names
     content {
       name = w_name
-    }
+    } 
   }
   cluster_admission_rules {
     cluster = join(".", [var.region, var.cluster_name])
