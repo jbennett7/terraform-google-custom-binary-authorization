@@ -38,6 +38,7 @@ resource "google_binary_authorization_policy" "policy" {
   default_admission_rule {
     evaluation_mode = var.evaluation_mode
     enforcement_mode = var.enforcement_mode
+    require_attestations_by = ["${google_binary_authorization_attestor.attestor.name}"]
   }
 
 }
