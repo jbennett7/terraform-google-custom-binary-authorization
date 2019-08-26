@@ -22,7 +22,7 @@ resource "google_binary_authorization_attestor" "attestor" {
 resource "google_binary_authorization_policy" "policy" {
   project = var.project_id
   provider = "google-beta"
-  admission_whitelist_patterns {
+  dynamic "admission_whitelist_patterns" {
     for w_name in var.whitelist_names: {
       name = w_name
     }
